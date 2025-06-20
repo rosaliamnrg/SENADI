@@ -1,6 +1,6 @@
 // src/pages/daftarchat.jsx
 import React, { useState, useEffect } from 'react';
-import { api } from '../utils/api';
+import api from '../utils/api';
 import styles from '../styles/style-daftarchat.module.css'; // ✅ CSS Module
 
 export default function DaftarChat() {

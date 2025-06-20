@@ -3,6 +3,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { AuthProvider } from '../contexts/AuthContext';
 import '../styles/globals.css';
 import '../styles/style-chat.css';
+import '../styles/style-fileknowledge.css';
 
 const theme = createTheme();
 

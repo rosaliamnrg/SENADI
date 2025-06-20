@@ -1,7 +1,7 @@
 // src/pages/fileknowledge.jsx
 import React, { useState, useEffect } from 'react';
-import { api } from '../utils/api';
-import '../styles/style-fileknowledge.css';
+import api from '../utils/api';
+// import '../styles/style-fileknowledge.css';
 
 export default function FileKnowledge() {
   const [files, setFiles] = useState([]);
