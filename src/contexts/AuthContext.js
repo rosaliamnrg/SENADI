@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || 'Registrasi gagal');
+        throw new Error(error.error || 'Registrasi gagal karena: ', error.error);
       }
 
       const data = await response.json();
