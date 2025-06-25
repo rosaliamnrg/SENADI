@@ -48,7 +48,7 @@ export default function Register() {
       const role = tab === 0 ? 'user' : 'admin';
       await register(formData.username, formData.email, formData.password, role);
     } catch (err) {
-      setError(err.message || 'Registrasi gagal');
+      setError(err.message || 'Registrasi gagal karena: ', err);
     } finally {
       setLoading(false);
     }
