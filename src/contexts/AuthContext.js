@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
-      });
+      }); 
 
       if (!response.ok) {
         const error = await response.json();
@@ -133,9 +133,9 @@ export const AuthProvider = ({ children }) => {
     const existingContentType = options.headers && options.headers['Content-Type'];
     
     const headers = {
+      ...(options.headers || {}),
       'Content-Type': existingContentType || 'application/json',
       'Authorization': `Bearer ${token}`,
-      ...(options.headers || {})
     };
     
     // Jangan tumpuk header Content-Type
