@@ -54,8 +54,8 @@ export default function Chat() {
           console.log('Attempting to create chat with regular endpoint');
           const response = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/chat/new`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: 'New Chat' })
+            // headers: { 'Content-Type': 'application/json' },
+            // body: JSON.stringify({ title: 'New Chat' })
           });
           
           if (response.ok) {
@@ -249,7 +249,8 @@ useEffect(() => {
       });
       
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({}));
+        console.log("Response failed: ", response.status, errorData)
         throw new Error(errorData.error || 'Gagal mengirim pesan');
       }
       
