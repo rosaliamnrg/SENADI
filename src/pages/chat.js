@@ -55,7 +55,7 @@ export default function Chat() {
           const response = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/chat/new`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: 'New Chat' })
+            body: JSON.stringify({ subject: 'New Chat' })
           });
           
           if (response.ok) {
