@@ -55,8 +55,7 @@ export default function Chat() {
           const response = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/chat/new`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            // body: JSON.stringify({ title: 'New Chat' })
-            body: JSON.stringify({ title: 'New Chat', subject: 'New Chat' })
+            body: JSON.stringify({ title: 'New Chat' })
           });
           
           if (response.ok) {
@@ -99,35 +98,35 @@ export default function Chat() {
         //   console.error('Error with alternative endpoint:', altError);
         // }
         
-        // // Try the simpleNew endpoint as a last resort
-        // try {
-        //   console.log('Attempting to create chat with simpleNew endpoint');
-        //   const tokenFromStorage = localStorage.getItem('token');
+        // Try the simpleNew endpoint as a last resort
+        try {
+          console.log('Attempting to create chat with simpleNew endpoint');
+          const tokenFromStorage = localStorage.getItem('token');
           
-        //   if (!tokenFromStorage) {
-        //     throw new Error('No token available for simpleNew endpoint');
-        //   }
+          if (!tokenFromStorage) {
+            throw new Error('No token available for simpleNew endpoint');
+          }
           
-        //   const simpleResponse = await fetch(
-        //     `${process.env.NEXT_PUBLIC_API_URL}/chat/simpleNew?token=${encodeURIComponent(tokenFromStorage)}`,
-        //     { method: 'GET' }
-        //   );
+          const simpleResponse = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/chat/simpleNew?token=${encodeURIComponent(tokenFromStorage)}`,
+            { method: 'GET' }
+          );
           
-        //   if (simpleResponse.ok) {
-        //     const simpleData = await simpleResponse.json();
-        //     if (simpleData.success) {
-        //       console.log('Chat created successfully with simpleNew endpoint');
-        //       setChatId(simpleData.chat_id);
-        //       setVerified(false);
-        //       setMessages([]);
-        //       return; // Exit if successful
-        //     }
-        //   }
-        //   console.log('Simple endpoint failed');
-        // } catch (simpleError) {
-        //   console.error('Error with simple endpoint:', simpleError);
-        //   throw simpleError; // Throw this error if all methods fail
-        // }
+          if (simpleResponse.ok) {
+            const simpleData = await simpleResponse.json();
+            if (simpleData.success) {
+              console.log('Chat created successfully with simpleNew endpoint');
+              setChatId(simpleData.chat_id);
+              setVerified(false);
+              setMessages([]);
+              return; // Exit if successful
+            }
+          }
+          console.log('Simple endpoint failed');
+        } catch (simpleError) {
+          console.error('Error with simple endpoint:', simpleError);
+          throw simpleError; // Throw this error if all methods fail
+        }
         
         throw new Error('All chat creation methods failed');
       } catch (error) {
