@@ -104,6 +104,7 @@ export default function Chat() {
           const tokenFromStorage = localStorage.getItem('token');
           
           if (!tokenFromStorage) {
+            console.log('No token available for simpleNew endpoint')
             throw new Error('No token available for simpleNew endpoint');
           }
           

@@ -53,6 +53,7 @@ export default function Login() {
               onChange={(e) => setEmail(e.target.value)}
               margin="normal"
               required
+              type="email"
             />
             <TextField
               fullWidth

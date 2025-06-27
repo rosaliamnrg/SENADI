@@ -163,7 +163,7 @@ export const AuthProvider = ({ children }) => {
       });
 
       console.log('Response status:', response.status);
-      console.log('Response status text:', response.statusText);
+      console.log('Response status text:', response.text);
       
       // Try to peek at response body for debugging without consuming it
       const responseClone = response.clone();
