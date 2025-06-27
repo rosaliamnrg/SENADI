@@ -55,8 +55,7 @@ export default function Chat() {
           const response = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/chat/new`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            // body: JSON.stringify({ title: 'New Chat' })
-            body: JSON.stringify({})
+            body: JSON.stringify({ title: 'New Chat' })
           });
           
           if (response.ok) {
@@ -69,7 +68,7 @@ export default function Chat() {
               return; // Exit if successful
             }
           } else{
-            const errorText = await response.test()
+            const errorText = await response.text()
             console.log("Gagal buat chat: ", response.status, errorText)
           }
           console.log('Regular endpoint failed, trying alternative');
