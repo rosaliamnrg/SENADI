@@ -158,7 +158,7 @@ export default function AdminUpload() {
       setError("");
 
       const response = await fetchWithAuth(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/delete/${filename}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/delete_github/${filename}`,
         {
           method: "GET",
         }
@@ -204,7 +204,7 @@ export default function AdminUpload() {
                       <th style={{ border: "1px solid #D9D9D9" }}>Nama File</th>
                       {/* <th style={{ border: "1px solid" }}>Tipe File</th> */}
                       <th style={{ border: "1px solid #D9D9D9" }}>
-                        Tanggal/Waktu
+                        Waktu dikirim
                       </th>
                       <th style={{ border: "1px solid #D9D9D9" }}>Aksi</th>
                     </tr>
@@ -275,7 +275,10 @@ export default function AdminUpload() {
                               padding: "3px",
                             }}
                           >
-                            {file.created_at}
+                            {new Date(file.created_at).toLocaleString("id-ID", {
+                              month: "long",
+                              year: "numeric",
+                            })}
                           </td>
                           <td
                             style={{
