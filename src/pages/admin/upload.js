@@ -13,7 +13,7 @@ import {
   Grid,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export default function AdminUpload() {
   const [loading, setLoading] = useState(false);
@@ -51,9 +51,21 @@ export default function AdminUpload() {
 
         const data = await response.json();
         if (data.success) {
-          setFileKnowledge(data.files);
-        }else if(data.error){
-          setFileKnowledge(data.error)
+          if (response.ok && data.success) {
+            setFileKnowledge((prev) => [
+              ...prev,
+              {
+                filename: data.file.name,
+                file_type: data.file.type,
+                upload_date: new Date()
+                  .toISOString()
+                  .slice(0, 19)
+                  .replace("T", " "), // Estimasi timestamp
+              },
+            ]);
+          }
+        } else if (data.error) {
+          setFileKnowledge(data.error);
         }
       } catch (error) {
         throw new Error(error);
@@ -181,56 +193,65 @@ export default function AdminUpload() {
 
               <Card sx={{ mx: "auto", mt: 2 }}>
                 <table
-                    style={{
-                      width: "100%",
-                      border: "1px solid",
-                      borderCollapse: "collapse",
-                    }}
+                  style={{
+                    width: "100%",
+                    border: "1px solid",
+                    borderCollapse: "collapse",
+                  }}
+                >
+                  <thead style={{ textAlign: "center" }}>
+                    <tr>
+                      <th style={{ border: "1px solid #D9D9D9" }}>No</th>
+                      <th style={{ border: "1px solid #D9D9D9" }}>Nama File</th>
+                      {/* <th style={{ border: "1px solid" }}>Tipe File</th> */}
+                      <th style={{ border: "1px solid #D9D9D9" }}>
+                        Tanggal/Waktu
+                      </th>
+                      <th style={{ border: "1px solid #D9D9D9" }}>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody
+                    style={{ textAlign: "center", border: "1px solid #D9D9D9" }}
                   >
-                    <thead style={{ textAlign: "center" }}>
-                      <tr>
-                        <th style={{ border: "1px solid #D9D9D9" }}>No</th>
-                        <th style={{ border: "1px solid #D9D9D9" }}>Nama File</th>
-                        {/* <th style={{ border: "1px solid" }}>Tipe File</th> */}
-                        <th style={{ border: "1px solid #D9D9D9" }}>Tanggal/Waktu</th>
-                        <th style={{ border: "1px solid #D9D9D9" }}>Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody style={{ textAlign: "center", border: "1px solid #D9D9D9" }}>
-                      {loading ? (
-                        <Box
-                          sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            height: "100%",
-                            border: "#D9D9D9"
-                          }}
-                        >
-                          <CircularProgress />
-                        </Box>
-                      ) : (
-                        fileKnowledge.length > 0 &&
-                        fileKnowledge.map((file, index) => (
-                          <tr key={file.id} style={{ height: "30px" }}>
-                            <td style={{ border: "1px solid #D9D9D9", padding: "3px" }}>
-                              {index + 1}
-                            </td>
-                            <td
-                              style={{
-                                textAlign: "left",
-                                border: "1px solid #D9D9D9",
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                maxWidth: "200px",
-                                padding: "3px",
-                              }}
-                              title={file.filename} // Shows the full filename on hover
-                            >
-                              {file.filename}
-                            </td>
-                            {/* <td
+                    {loading ? (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          height: "100%",
+                          border: "#D9D9D9",
+                        }}
+                      >
+                        <CircularProgress />
+                      </Box>
+                    ) : (
+                      fileKnowledge.length > 0 &&
+                      fileKnowledge.map((file, index) => (
+                        <tr key={file.id} style={{ height: "30px" }}>
+                          <td
+                            style={{
+                              border: "1px solid #D9D9D9",
+                              padding: "3px",
+                            }}
+                          >
+                            {index + 1}
+                          </td>
+                          <td
+                            style={{
+                              textAlign: "left",
+                              border: "1px solid #D9D9D9",
+                              whiteSpace: "nowrap",
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              maxWidth: "200px",
+                              padding: "3px",
+                            }}
+                            title={file.filename} // Shows the full filename on hover
+                          >
+                            {file.filename}
+                          </td>
+                          {/* <td
                               style={{
                                 border: "1px solid",
                                 width: "80px",
@@ -239,28 +260,33 @@ export default function AdminUpload() {
                             >
                               {file.file_type}
                             </td> */}
-                            <td
-                              style={{
-                                border: "1px solid #D9D9D9",
-                                width: "250px",
-                                padding: "3px",
-                              }}
+                          <td
+                            style={{
+                              border: "1px solid #D9D9D9",
+                              width: "250px",
+                              padding: "3px",
+                            }}
+                          >
+                            {file.upload_date}
+                          </td>
+                          <td
+                            style={{
+                              border: "1px solid #D9D9D9",
+                              padding: "3px",
+                            }}
+                          >
+                            <span
+                              onClick={() => handleDelete(file.filename)}
+                              style={{ cursor: "pointer", color: "#06344E" }}
                             >
-                              {file.upload_date}
-                            </td>
-                            <td style={{ border: "1px solid #D9D9D9", padding: "3px" }}>
-                              <span
-                                onClick={() => handleDelete(file.filename)}
-                                style={{ cursor: 'pointer', color: '#06344E' }}
-                              >
-                                <DeleteIcon />
-                              </span>
-                            </td>
-                          </tr>
-                        ))
-                      )}
-                    </tbody>
-                  </table>
+                              <DeleteIcon />
+                            </span>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
               </Card>
             </Box>
           </div>
