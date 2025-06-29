@@ -52,6 +52,8 @@ export default function AdminUpload() {
         const data = await response.json();
         if (data.success) {
           setFileKnowledge(data.files);
+        }else if(data.error){
+          setFileKnowledge(data.error)
         }
       } catch (error) {
         throw new Error(error);
