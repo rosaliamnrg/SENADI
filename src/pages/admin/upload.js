@@ -275,7 +275,7 @@ export default function AdminUpload() {
                               padding: "3px",
                             }}
                           >
-                            {file.upload_date}
+                            {file.created_at}
                           </td>
                           <td
                             style={{
