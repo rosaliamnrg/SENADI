@@ -161,6 +161,9 @@ export default function AdminUpload() {
         `${process.env.NEXT_PUBLIC_API_URL}/admin/delete_github/${filename}`,
         {
           method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
