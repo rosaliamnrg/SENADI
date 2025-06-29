@@ -19,7 +19,7 @@ export default function AdminUpload() {
   const [loading, setLoading] = useState(false);
   const [fileKnowledge, setFileKnowledge] = useState([]);
   const [uploadLoading, setUploadLoading] = useState(false);
-  const [file, setFile] = useState([]);
+  const [files, setFiles] = useState([]);
   const [error, setError] = useState("");
 
   const {
@@ -330,7 +330,8 @@ export default function AdminUpload() {
                             Pilih File
                           </Button>
 
-                          {file && (
+                          {/* ⬇️ Tambahkan preview file di sini */}
+                          {files.length > 0 && (
                             <Paper
                               sx={{
                                 p: 2,
@@ -338,10 +339,12 @@ export default function AdminUpload() {
                                 mt: 2,
                               }}
                             >
-                              <Typography variant="body2">
-                                File: <strong>{file.name}</strong> (
-                                {(file.size / 1024).toFixed(1)} KB)
-                              </Typography>
+                              {files.map((f, idx) => (
+                                <Typography variant="body2" key={idx}>
+                                  File: <strong>{f.name}</strong> (
+                                  {(f.size / 1024).toFixed(1)} KB)
+                                </Typography>
+                              ))}
                             </Paper>
                           )}
                         </Box>
