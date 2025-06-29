@@ -90,7 +90,7 @@ export default function AdminUpload() {
     // Buat FormData baru
     for (const file of files) {
       const formData = new FormData();
-      formData.append("file", file); // Gunakan 'file' sebagai key
+      formData.append("files", file); // Gunakan 'file' sebagai key
 
       try {
         // Debug logs
