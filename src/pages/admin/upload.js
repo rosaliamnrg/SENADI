@@ -167,7 +167,6 @@ export default function AdminUpload() {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          body: []
         }
       );
 
