@@ -100,7 +100,7 @@ export default function AdminUpload() {
       // Buat fetch request biasa, bukan fetchWithAuth, untuk menghindari masalah headers
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/upload`,
+        `${process.env.NEXT_PUBLIC_API_URL}/upload_github`,
         {
           method: "POST",
           headers: {
