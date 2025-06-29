@@ -159,9 +159,9 @@ export default function AdminUpload() {
       const token = localStorage.getItem("token");
       setLoading(true);
       setError("");
-
+      const encodedFilename = encodeURIComponent(filename);
       const response = await fetchWithAuth(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/delete_github/${filename}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/admin/delete_github/${encodedFilename}`,
         {
           method: "GET",
           headers: {
