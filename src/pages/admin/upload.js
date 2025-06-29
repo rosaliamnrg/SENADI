@@ -360,7 +360,7 @@ export default function AdminUpload() {
                               <AddIcon />
                             )
                           }
-                          disabled={!file || uploadLoading}
+                          disabled={files.length == 0 || uploadLoading}
                           fullWidth
                         >
                           {uploadLoading ? "Mengunggah..." : "Upload File"}
