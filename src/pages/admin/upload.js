@@ -51,21 +51,11 @@ export default function AdminUpload() {
 
         const data = await response.json();
         if (data.success) {
-          if (response.ok && data.success) {
-            setFileKnowledge((prev) => [
-              ...prev,
-              {
-                filename: data.file.name,
-                file_type: data.file.type,
-                upload_date: new Date()
-                  .toISOString()
-                  .slice(0, 19)
-                  .replace("T", " "), // Estimasi timestamp
-              },
-            ]);
+          if (Array.isArray(data.files) && data.files.length > 0) {
+            setFileKnowledge(data.files);
+          } else {
+            setFileKnowledge([]);
           }
-        } else if (data.error) {
-          setFileKnowledge(data.error);
         }
       } catch (error) {
         throw new Error(error);
@@ -225,6 +215,15 @@ export default function AdminUpload() {
                       >
                         <CircularProgress />
                       </Box>
+                    ) : fileKnowledge.length == 0 ? (
+                      <tr>
+                        <td
+                          colSpan={4}
+                          style={{ padding: "10px", textAlign: "center" }}
+                        >
+                          Tidak ada file yang sudah dimasukkan
+                        </td>
+                      </tr>
                     ) : (
                       fileKnowledge.length > 0 &&
                       fileKnowledge.map((file, index) => (
