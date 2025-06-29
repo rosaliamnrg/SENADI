@@ -85,10 +85,9 @@ export default function AdminUpload() {
     setUploadLoading(true);
     setError("");
 
-    console.log("Uploading file:", file.name, file.type, file.size);
-
     // Buat FormData baru
     for (const file of files) {
+      console.log("Uploading file:", file.name, file.type, file.size);
       const formData = new FormData();
       formData.append("files", file); // Gunakan 'file' sebagai key
 
