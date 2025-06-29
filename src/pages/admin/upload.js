@@ -153,7 +153,10 @@ export default function AdminUpload() {
   };
 
   const handleDelete = async (filename) => {
+    const confirmDelete = window.confirm(`Yakin ingin menghapus ${filename}?`);
+    if (!confirmDelete) return;
     try {
+      const token = localStorage.getItem("token");
       setLoading(true);
       setError("");
 
@@ -324,6 +327,7 @@ export default function AdminUpload() {
                             style={{ display: "none" }}
                             accept=".pdf,.xlsx,.xls,.csv"
                             multiple
+                            disabled={loading}
                           />
                           <Button
                             variant="outlined"
