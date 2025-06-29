@@ -19,7 +19,7 @@ export default function AdminUpload() {
   const [loading, setLoading] = useState(false);
   const [fileKnowledge, setFileKnowledge] = useState([]);
   const [uploadLoading, setUploadLoading] = useState(false);
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState([]);
   const [error, setError] = useState("");
 
   const {
@@ -77,69 +77,79 @@ export default function AdminUpload() {
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    if (!file) {
+    if (files.length === 0) {
       setError("Pilih file terlebih dahulu");
       return;
     }
 
-    try {
-      setUploadLoading(true);
-      setError("");
+    setUploadLoading(true);
+    setError("");
 
-      console.log("Uploading file:", file.name, file.type, file.size);
+    console.log("Uploading file:", file.name, file.type, file.size);
 
-      // Buat FormData baru
+    // Buat FormData baru
+    for (const file of files) {
       const formData = new FormData();
       formData.append("file", file); // Gunakan 'file' sebagai key
 
-      // Debug logs
-      for (let [key, value] of formData.entries()) {
-        console.log(
-          `FormData: ${key} = ${value instanceof File ? value.name : value}`
+      try {
+        // Debug logs
+        // for (let [key, value] of formData.entries()) {
+        //   console.log(
+        //     `FormData: ${key} = ${value instanceof File ? value.name : value}`
+        //   );
+        // }
+
+        // Buat fetch request biasa, bukan fetchWithAuth, untuk menghindari masalah headers
+        const token = localStorage.getItem("token");
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/upload_github`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formData,
+          }
         );
-      }
 
-      // Buat fetch request biasa, bukan fetchWithAuth, untuk menghindari masalah headers
-      const token = localStorage.getItem("token");
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/upload_github`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          console.error(`Gagal upload ${file.name}:`, data.error);
+        } else {
+          console.log(`Berhasil upload ${file.name}`);
         }
-      );
-
-      const data = await response.json();
-
-      if (response.ok && data.success) {
-        setFile(null);
-        if (fileInputRef.current) {
-          fileInputRef.current.value = ""; // Reset input file
-        }
-        alert("File berhasil diunggah");
-      } else {
-        throw new Error(data.error || "Gagal mengunggah file");
+      } catch (err) {
+        console.error(`Error saat upload ${file.name}:`, err.message);
+      } finally {
+        setUploadLoading(false);
       }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      setError("Gagal mengunggah file: " + error.message);
-    } finally {
-      setUploadLoading(false);
     }
+
+    setFiles([]);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+
+    setUploadLoading(false);
+    alert("Proses upload selesai");
   };
+  // const handleFileChange = (e) => {
+  //   if (e.target.files && e.target.files[0]) {
+  //     const selectedFile = e.target.files[0];
+  //     console.log(
+  //       "File selected:",
+  //       selectedFile.name,
+  //       selectedFile.type,
+  //       selectedFile.size
+  //     );
+  //     setFile(selectedFile);
+  //   }
+  // };
   const handleFileChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files[0];
-      console.log(
-        "File selected:",
-        selectedFile.name,
-        selectedFile.type,
-        selectedFile.size
-      );
-      setFile(selectedFile);
+    if (e.target.files && e.target.files.length > 0) {
+      setFiles(Array.from(e.target.files));
     }
   };
 
@@ -308,6 +318,7 @@ export default function AdminUpload() {
                             onChange={handleFileChange}
                             style={{ display: "none" }}
                             accept=".pdf,.xlsx,.xls,.csv"
+                            multiple
                           />
                           <Button
                             variant="outlined"
