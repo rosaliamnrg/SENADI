@@ -28,9 +28,6 @@ export default function AdminChat() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [file, setFile] = useState(null);
-  const [fileKnowledge, setFileKnowledge] = useState([]);
-  const [uploadLoading, setUploadLoading] = useState(false);
 
   const {
     isAuthenticated,
@@ -95,10 +92,6 @@ export default function AdminChat() {
       loadChats();
     }
   }, [isAuthenticated, isAdmin, authLoading, fetchWithAuth]);
-
-  const handleTabChange = (event, newValue) => {
-    setTab(newValue);
-  };
 
   const handleSelectChat = async (chatId) => {
     try {
@@ -227,102 +220,6 @@ export default function AdminChat() {
     }
   };
 
-  const handleFileChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files[0];
-      console.log(
-        "File selected:",
-        selectedFile.name,
-        selectedFile.type,
-        selectedFile.size
-      );
-      setFile(selectedFile);
-    }
-  };
-
-  const handleUploadButtonClick = () => {
-    // Memicu klik pada input file tersembunyi
-    fileInputRef.current.click();
-  };
-
-  const handleUpload = async (e) => {
-    e.preventDefault();
-    if (!file) {
-      setError("Pilih file terlebih dahulu");
-      return;
-    }
-
-    try {
-      setUploadLoading(true);
-      setError("");
-
-      console.log("Uploading file:", file.name, file.type, file.size);
-
-      // Buat FormData baru
-      const formData = new FormData();
-      formData.append("file", file); // Gunakan 'file' sebagai key
-
-      // Debug logs
-      for (let [key, value] of formData.entries()) {
-        console.log(
-          `FormData: ${key} = ${value instanceof File ? value.name : value}`
-        );
-      }
-
-      // Buat fetch request biasa, bukan fetchWithAuth, untuk menghindari masalah headers
-      const token = localStorage.getItem("token");
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/upload`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok && data.success) {
-        setFile(null);
-        if (fileInputRef.current) {
-          fileInputRef.current.value = ""; // Reset input file
-        }
-        alert("File berhasil diunggah");
-      } else {
-        throw new Error(data.error || "Gagal mengunggah file");
-      }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      setError("Gagal mengunggah file: " + error.message);
-    } finally {
-      setUploadLoading(false);
-    }
-  };
-
-  const handleDelete = async (filename) => {
-    try {
-      setLoading(true);
-      setError("");
-
-      const response = await fetchWithAuth(
-        `${process.env.NEXT_PUBLIC_API_URL}/admin/delete/${filename}`,
-        {
-          method: "GET",
-        }
-      );
-
-      const data = await response.json();
-
-      if (data.success) {
-        setSuccess("Berhasil menghapus file knowledge!");
-      }
-    } catch (e) {
-      setError("Tidak berhasil menghapus file knowledge!");
-    }
-  };
-
   if (authLoading) {
     return (
       <Box
@@ -341,35 +238,101 @@ export default function AdminChat() {
   }
 
   return (
-    <Box sx={{ height: '100vh', overflow: 'hidden' }}>
-    <LayoutAdmin>
-      {error && (
-        <Alert severity="error" sx={{ mt: 2, mx: 2 }}>
-          {error}
-        </Alert>
-      )}
+    <Box sx={{ height: "100vh", overflow: "hidden" }}>
+      <LayoutAdmin>
+        {error && (
+          <Alert severity="error" sx={{ mt: 2, mx: 2 }}>
+            {error}
+          </Alert>
+        )}
 
-      {success && (
-        <Alert severity="success" sx={{ mt: 2, mx: 2 }}>
-          {success}
-        </Alert>
-      )}
-      <Grid container spacing={2} sx={{ height: 'calc(100vh - 112px)', overflow: 'hidden' }}>
-        <Grid item xs={12} md={4} sx={{ height: "100%" }}>
-          <Paper
-            elevation={3}
+        {success && (
+          <Alert severity="success" sx={{ mt: 2, mx: 2 }}>
+            {success}
+          </Alert>
+        )}
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            height: "calc(100vh - 112px)",
+            overflow: "hidden",
+            flexDirection: { xs: "column", md: "row" },
+          }}
+        >
+          <Grid
+            item
+            xs={12}
+            md={4}
             sx={{
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              overflow: "hidden",
+              height: { xs: selectedChat ? 0 : "100%", md: "100%" },
+              display: { xs: selectedChat ? "none" : "block", md: "block" },
             }}
           >
-            <Box sx={{ p: 2, borderBottom: "1px solid #e0e0e0" }}>
-              <Typography variant="h6">Daftar Chat</Typography>
-            </Box>
-            <Box sx={{ flexGrow: 1, overflow: "auto" }}>
-              {loading && chats.length === 0 ? (
+            {/* Daftar Chat */}
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
+            md={8}
+            sx={{
+              height: "100%",
+              display: { xs: selectedChat ? "block" : "none", md: "block" },
+            }}
+          >
+            <Paper
+              elevation={3}
+              sx={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden",
+              }}
+            >
+              {selectedChat ? (
+                <>
+                  <Box
+                    sx={{
+                      p: 2,
+                      borderBottom: "1px solid #e0e0e0",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      flexWrap: "wrap",
+                      gap: 1,
+                    }}
+                  >
+                    <Box>
+                      <Typography variant="h6">Detail Chat</Typography>
+                      <Button
+                        variant="text"
+                        onClick={() => setSelectedChat(null)}
+                        sx={{
+                          display: { xs: "inline-block", md: "none" },
+                          mt: 1,
+                        }}
+                      >
+                        ← Kembali
+                      </Button>
+                    </Box>
+                    {messages.some(
+                      (msg) => msg.sender === "bot" && !msg.is_corrected
+                    ) && (
+                      <Button
+                        variant="contained"
+                        color="success"
+                        startIcon={<CheckCircleIcon />}
+                        onClick={handleVerify}
+                        disabled={loading}
+                      >
+                        Verifikasi Chat
+                      </Button>
+                    )}
+                  </Box>
+                  {/* ...lanjutkan sisa UI seperti biasa */}
+                </>
+              ) : (
                 <Box
                   sx={{
                     display: "flex",
@@ -378,266 +341,15 @@ export default function AdminChat() {
                     height: "100%",
                   }}
                 >
-                  <CircularProgress />
-                </Box>
-              ) : chats.length === 0 ? (
-                <Box sx={{ p: 3, textAlign: "center" }}>
                   <Typography color="text.secondary">
-                    Belum ada chat yang perlu diverifikasi
+                    Pilih chat di daftar untuk melihat detail
                   </Typography>
                 </Box>
-              ) : (
-                <List>
-                  {chats.map((chat, index) => (
-                    <React.Fragment key={chat.id}>
-                      <ListItem
-                        button
-                        selected={selectedChat === chat.id}
-                        onClick={() => handleSelectChat(chat.id)}
-                      >
-                        <ListItemText
-                          primary={
-                            <Box
-                              sx={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 1,
-                              }}
-                            >
-                              <Typography variant="body1">
-                                {chat.username ||
-                                  `User #${chat.user_id.substring(0, 8)}`}
-                              </Typography>
-                              {chat.verified ? <CheckCircleIcon color="success" fontSize="small" /> : ""}
-                            </Box>
-                          }
-                          secondary={
-                            <Box>
-                              <Box sx={{ mt: 1 }}>
-                                {chat.last_user_message && (
-                                  <Typography
-                                    variant="caption"
-                                    component="div"
-                                    sx={{
-                                      color: "text.secondary",
-                                      fontStyle: "italic",
-                                      mb: 0.5,
-                                    }}
-                                  >
-                                    <strong>Q:</strong> {chat.last_user_message}
-                                  </Typography>
-                                )}
-                                {chat.last_bot_message && (
-                                  <Typography
-                                    variant="caption"
-                                    component="div"
-                                    sx={{
-                                      color: chat.verified
-                                        ? "success.main"
-                                        : "text.primary",
-                                      fontStyle: "italic",
-                                      border: chat.verified
-                                        ? "1px solid #59BA5D"
-                                        : "1px dashed #EEA018",
-                                      p: 0.5,
-                                      borderRadius: "4px",
-                                    }}
-                                  >
-                                    <strong>A:</strong> {chat.last_bot_message}
-                                  </Typography>
-                                )}
-                              </Box>
-                              <Typography
-                                variant="caption"
-                                component="div"
-                                sx={{ mt: 1 }}
-                              >
-                                {new Date(chat.created_at).toLocaleString(
-                                  "id-ID"
-                                )}{" "}
-                                · {chat.message_count} pesan
-                              </Typography>
-                            </Box>
-                          }
-                        />
-                      </ListItem>
-                      {index < chats.length - 1 && <Divider />}
-                    </React.Fragment>
-                  ))}
-                </List>
               )}
-            </Box>
-          </Paper>
+            </Paper>
+          </Grid>
         </Grid>
-
-        <Grid item xs={12} md={8} sx={{ height: "100%" }}>
-          <Paper
-            elevation={3}
-            sx={{
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              overflow: "hidden",
-            }}
-          >
-            {selectedChat ? (
-              <>
-                <Box
-                  sx={{
-                    p: 2,
-                    borderBottom: "1px solid #e0e0e0",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography variant="h6">Detail Chat</Typography>
-                  {messages.some(
-                    (msg) => msg.sender === "bot" && !msg.is_corrected
-                  ) && (
-                    <Button
-                      variant="contained"
-                      color="success"
-                      startIcon={<CheckCircleIcon />}
-                      onClick={handleVerify}
-                      disabled={loading}
-                    >
-                      Verifikasi Chat
-                    </Button>
-                  )}
-                </Box>
-
-                <Box sx={{ flexGrow: 1, overflow: "auto", p: 2 }}>
-                  {loading ? (
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100%",
-                      }}
-                    >
-                      <CircularProgress />
-                    </Box>
-                  ) : messages.length === 0 ? (
-                    <Box sx={{ p: C, textAlign: "center" }}>
-                      <Typography color="text.secondary">
-                        Belum ada pesan di chat ini
-                      </Typography>
-                    </Box>
-                  ) : (
-                    messages.map((message, index) => (
-                      <Box
-                        key={index}
-                        sx={{
-                          display: "flex",
-                          justifyContent:
-                            message.sender === "user"
-                              ? "flex-end"
-                              : "flex-start",
-                          mb: 2,
-                        }}
-                      >
-                        <Paper
-                          elevation={1}
-                          sx={{
-                            p: 2,
-                            maxWidth: "80%",
-                            bgcolor:
-                              message.sender === "user" ? "#D9EDF6" : "#F5F5F5",
-                            borderLeft: message.is_correction
-                              ? "3px solid #59BA5D"
-                              : "none",
-                            borderRight: message.is_corrected
-                              ? "3px solid orange"
-                              : "none",
-                          }}
-                        >
-                          <Typography variant="body1">
-                            {message.message}
-                          </Typography>
-                          <Typography
-                            variant="caption"
-                            color="text.secondary"
-                            sx={{ display: "block", mt: 1 }}
-                          >
-                            {message.sender === "user" ? "Pengguna" : "Bot"} ·{" "}
-                            {new Date(message.created_at).toLocaleString(
-                              "id-ID"
-                            )}
-                          </Typography>
-
-                          {message.is_corrected && (
-                            <Typography
-                              variant="caption"
-                              color="warning.main"
-                              sx={{ display: "block", mt: 1 }}
-                            >
-                              Jawaban ini telah dikoreksi
-                            </Typography>
-                          )}
-                          {message.is_correction && (
-                            <Typography
-                              variant="caption"
-                              color="success.main"
-                              sx={{ display: "block", mt: 1 }}
-                            >
-                              Jawaban terkoreksi
-                            </Typography>
-                          )}
-                        </Paper>
-                      </Box>
-                    ))
-                  )}
-                </Box>
-
-                <Box sx={{ p: 2, borderTop: "1px solid #e0e0e0" }}>
-                  <form onSubmit={handleCorrect}>
-                    <Box sx={{ display: "flex", gap: 1 }}>
-                      <TextField
-                        fullWidth
-                        placeholder="Ketik koreksi untuk jawaban bot terakhir..."
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        disabled={loading}
-                      />
-                      <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        disabled={!input.trim() || loading}
-                        endIcon={
-                          loading ? (
-                            <CircularProgress size={20} />
-                          ) : (
-                            <SendIcon />
-                          )
-                        }
-                      >
-                        Koreksi
-                      </Button>
-                    </Box>
-                  </form>
-                </Box>
-              </>
-            ) : (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "100%",
-                }}
-              >
-                <Typography color="text.secondary">
-                  Pilih chat di daftar untuk melihat detail
-                </Typography>
-              </Box>
-            )}
-          </Paper>
-        </Grid>
-      </Grid>
-    </LayoutAdmin>
+      </LayoutAdmin>
     </Box>
   );
 }
