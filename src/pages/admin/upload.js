@@ -260,8 +260,7 @@ export default function AdminUpload() {
                             <td
                               style={{
                                 border: "1px solid #D9D9D9",
-                                padding: "3px",
-                                textAlign:"center"
+                                padding: "3px"
                               }}
                             >
                               {new Date(file.created_at).toLocaleString(
@@ -275,7 +274,8 @@ export default function AdminUpload() {
                             <td
                               style={{
                                 border: "1px solid #D9D9D9",
-                                padding: "3px"
+                                padding: "3px",
+                                textAlign:"center"
                               }}
                             >
                               <span
