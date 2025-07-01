@@ -251,6 +251,7 @@ export default function AdminChat() {
             {success}
           </Alert>
         )}
+        {/* <Grid container spacing={2} sx={{ height: 'calc(100vh - 112px)', overflow: 'hidden' }}> */}
         <Grid
           container
           spacing={2}
@@ -260,6 +261,7 @@ export default function AdminChat() {
             flexDirection: { xs: "column", md: "row" },
           }}
         >
+          {/* <Grid item xs={12} md={4} sx={{ height: "100%" }}> */}
           <Grid
             item
             xs={12}
@@ -269,9 +271,130 @@ export default function AdminChat() {
               display: { xs: selectedChat ? "none" : "block", md: "block" },
             }}
           >
-            {/* Daftar Chat */}
+            <Paper
+              elevation={3}
+              sx={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                overflow: "hidden",
+              }}
+            >
+              <Box sx={{ p: 2, borderBottom: "1px solid #e0e0e0" }}>
+                <Typography variant="h6">Daftar Chat</Typography>
+              </Box>
+              <Box sx={{ flexGrow: 1, overflow: "auto" }}>
+                {loading && chats.length === 0 ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100%",
+                    }}
+                  >
+                    <CircularProgress />
+                  </Box>
+                ) : chats.length === 0 ? (
+                  <Box sx={{ p: 3, textAlign: "center" }}>
+                    <Typography color="text.secondary">
+                      Belum ada chat yang perlu diverifikasi
+                    </Typography>
+                  </Box>
+                ) : (
+                  <List>
+                    {chats.map((chat, index) => (
+                      <React.Fragment key={chat.id}>
+                        <ListItem
+                          button
+                          selected={selectedChat === chat.id}
+                          onClick={() => handleSelectChat(chat.id)}
+                        >
+                          <ListItemText
+                            primary={
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 1,
+                                }}
+                              >
+                                <Typography variant="body1">
+                                  {chat.username ||
+                                    `User #${chat.user_id.substring(0, 8)}`}
+                                </Typography>
+                                {chat.verified ? (
+                                  <CheckCircleIcon
+                                    color="success"
+                                    fontSize="small"
+                                  />
+                                ) : (
+                                  ""
+                                )}
+                              </Box>
+                            }
+                            secondary={
+                              <Box>
+                                <Box sx={{ mt: 1 }}>
+                                  {chat.last_user_message && (
+                                    <Typography
+                                      variant="caption"
+                                      component="div"
+                                      sx={{
+                                        color: "text.secondary",
+                                        fontStyle: "italic",
+                                        mb: 0.5,
+                                      }}
+                                    >
+                                      <strong>Q:</strong>{" "}
+                                      {chat.last_user_message}
+                                    </Typography>
+                                  )}
+                                  {chat.last_bot_message && (
+                                    <Typography
+                                      variant="caption"
+                                      component="div"
+                                      sx={{
+                                        color: chat.verified
+                                          ? "success.main"
+                                          : "text.primary",
+                                        fontStyle: "italic",
+                                        border: chat.verified
+                                          ? "1px solid #59BA5D"
+                                          : "1px dashed #EEA018",
+                                        p: 0.5,
+                                        borderRadius: "4px",
+                                      }}
+                                    >
+                                      <strong>A:</strong>{" "}
+                                      {chat.last_bot_message}
+                                    </Typography>
+                                  )}
+                                </Box>
+                                <Typography
+                                  variant="caption"
+                                  component="div"
+                                  sx={{ mt: 1 }}
+                                >
+                                  {new Date(chat.created_at).toLocaleString(
+                                    "id-ID"
+                                  )}{" "}
+                                  · {chat.message_count} pesan
+                                </Typography>
+                              </Box>
+                            }
+                          />
+                        </ListItem>
+                        {index < chats.length - 1 && <Divider />}
+                      </React.Fragment>
+                    ))}
+                  </List>
+                )}
+              </Box>
+            </Paper>
           </Grid>
 
+          {/* <Grid item xs={12} md={8} sx={{ height: "100%" }}> */}
           <Grid
             item
             xs={12}
@@ -330,7 +453,121 @@ export default function AdminChat() {
                       </Button>
                     )}
                   </Box>
-                  {/* ...lanjutkan sisa UI seperti biasa */}
+
+                  <Box sx={{ flexGrow: 1, overflow: "auto", p: 2 }}>
+                    {loading ? (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          height: "100%",
+                        }}
+                      >
+                        <CircularProgress />
+                      </Box>
+                    ) : messages.length === 0 ? (
+                      <Box sx={{ p: C, textAlign: "center" }}>
+                        <Typography color="text.secondary">
+                          Belum ada pesan di chat ini
+                        </Typography>
+                      </Box>
+                    ) : (
+                      messages.map((message, index) => (
+                        <Box
+                          key={index}
+                          sx={{
+                            display: "flex",
+                            justifyContent:
+                              message.sender === "user"
+                                ? "flex-end"
+                                : "flex-start",
+                            mb: 2,
+                          }}
+                        >
+                          <Paper
+                            elevation={1}
+                            sx={{
+                              p: 2,
+                              maxWidth: "80%",
+                              bgcolor:
+                                message.sender === "user"
+                                  ? "#D9EDF6"
+                                  : "#F5F5F5",
+                              borderLeft: message.is_correction
+                                ? "3px solid #59BA5D"
+                                : "none",
+                              borderRight: message.is_corrected
+                                ? "3px solid orange"
+                                : "none",
+                            }}
+                          >
+                            <Typography variant="body1">
+                              {message.message}
+                            </Typography>
+                            <Typography
+                              variant="caption"
+                              color="text.secondary"
+                              sx={{ display: "block", mt: 1 }}
+                            >
+                              {message.sender === "user" ? "Pengguna" : "Bot"} ·{" "}
+                              {new Date(message.created_at).toLocaleString(
+                                "id-ID"
+                              )}
+                            </Typography>
+
+                            {message.is_corrected && (
+                              <Typography
+                                variant="caption"
+                                color="warning.main"
+                                sx={{ display: "block", mt: 1 }}
+                              >
+                                Jawaban ini telah dikoreksi
+                              </Typography>
+                            )}
+                            {message.is_correction && (
+                              <Typography
+                                variant="caption"
+                                color="success.main"
+                                sx={{ display: "block", mt: 1 }}
+                              >
+                                Jawaban terkoreksi
+                              </Typography>
+                            )}
+                          </Paper>
+                        </Box>
+                      ))
+                    )}
+                  </Box>
+
+                  <Box sx={{ p: 2, borderTop: "1px solid #e0e0e0" }}>
+                    <form onSubmit={handleCorrect}>
+                      <Box sx={{ display: "flex", gap: 1 }}>
+                        <TextField
+                          fullWidth
+                          placeholder="Ketik koreksi untuk jawaban bot terakhir..."
+                          value={input}
+                          onChange={(e) => setInput(e.target.value)}
+                          disabled={loading}
+                        />
+                        <Button
+                          type="submit"
+                          variant="contained"
+                          color="primary"
+                          disabled={!input.trim() || loading}
+                          endIcon={
+                            loading ? (
+                              <CircularProgress size={20} />
+                            ) : (
+                              <SendIcon />
+                            )
+                          }
+                        >
+                          Koreksi
+                        </Button>
+                      </Box>
+                    </form>
+                  </Box>
                 </>
               ) : (
                 <Box
