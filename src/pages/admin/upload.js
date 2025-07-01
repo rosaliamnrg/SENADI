@@ -204,14 +204,14 @@ export default function AdminUpload() {
                   >
                     <thead style={{ textAlign: "center" }}>
                       <tr>
-                        <th style={{ border: "1px solid #D9D9D9" }}>No</th>
-                        <th style={{ border: "1px solid #D9D9D9" }}>
+                        <th style={{ border: "1px solid #D9D9D9", textAlign:"center" }}>No</th>
+                        <th style={{ border: "1px solid #D9D9D9", textAlign:"center" }}>
                           Nama File
                         </th>
-                        <th style={{ border: "1px solid #D9D9D9" }}>
+                        <th style={{ border: "1px solid #D9D9D9", textAlign:"center" }}>
                           Waktu Dikirim
                         </th>
-                        <th style={{ border: "1px solid #D9D9D9" }}>Aksi</th>
+                        <th style={{ border: "1px solid #D9D9D9", textAlign:"center" }}>Aksi</th>
                       </tr>
                     </thead>
                     <tbody style={{ textAlign: "center" }}>
@@ -219,7 +219,7 @@ export default function AdminUpload() {
                         <tr>
                           <td colSpan={4}>
                             <Box
-                              sx={{ display: "flex", justifyContent: "center" }}
+                              sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
                             >
                               <CircularProgress />
                             </Box>
@@ -237,7 +237,7 @@ export default function AdminUpload() {
                             <td
                               style={{
                                 border: "1px solid #D9D9D9",
-                                padding: "3px",
+                                padding: "3px"
                               }}
                             >
                               {index + 1}
@@ -260,6 +260,7 @@ export default function AdminUpload() {
                               style={{
                                 border: "1px solid #D9D9D9",
                                 padding: "3px",
+                                textAlign:"center"
                               }}
                             >
                               {new Date(file.created_at).toLocaleString(
@@ -274,6 +275,7 @@ export default function AdminUpload() {
                               style={{
                                 border: "1px solid #D9D9D9",
                                 padding: "3px",
+                                textAlign:"center"
                               }}
                             >
                               <span
