@@ -154,9 +154,8 @@ export default function AdminUpload() {
   return (
     <>
       <LayoutAdmin>
-        {/* ✅ Tampilkan notifikasi */}
         {success && (
-          <Box sx={{ mt: 2, mx: 4 }}>
+          <Box sx={{ mt: 2, mx: 2 }}>
             <Typography
               sx={{
                 backgroundColor: "#e6ffed",
@@ -171,7 +170,7 @@ export default function AdminUpload() {
           </Box>
         )}
         {error && (
-          <Box sx={{ mt: 2, mx: 4 }}>
+          <Box sx={{ mt: 2, mx: 2 }}>
             <Typography
               sx={{
                 backgroundColor: "#ffebee",
@@ -186,162 +185,160 @@ export default function AdminUpload() {
           </Box>
         )}
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            width: "100%",
-          }}
-        >
-          <div style={{ width: "70%" }}>
-            <Box sx={{ p: 4 }}>
+        <Box sx={{ flexGrow: 1, p: 2 }}>
+          <Grid container spacing={3}>
+            {/* Daftar File */}
+            <Grid item xs={12} md={8}>
               <Typography variant="h6" gutterBottom>
                 Daftar File Knowledge
               </Typography>
 
-              <Card sx={{ mx: "auto", mt: 2 }}>
-                <table
-                  style={{
-                    width: "100%",
-                    border: "1px solid",
-                    borderCollapse: "collapse",
-                  }}
-                >
-                  <thead style={{ textAlign: "center" }}>
-                    <tr>
-                      <th style={{ border: "1px solid #D9D9D9" }}>No</th>
-                      <th style={{ border: "1px solid #D9D9D9" }}>
-                        Nama File
-                      </th>
-                      <th style={{ border: "1px solid #D9D9D9" }}>
-                        Waktu dikirim
-                      </th>
-                      <th style={{ border: "1px solid #D9D9D9" }}>Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody
+              <Card>
+                <Box sx={{ overflowX: "auto" }}>
+                  <table
                     style={{
-                      textAlign: "center",
-                      border: "1px solid #D9D9D9",
+                      width: "100%",
+                      border: "1px solid",
+                      borderCollapse: "collapse",
                     }}
                   >
-                    {loading ? (
+                    <thead style={{ textAlign: "center" }}>
                       <tr>
-                        <td colSpan={4}>
-                          <Box sx={{ display: "flex", justifyContent: "center" }}>
-                            <CircularProgress />
-                          </Box>
-                        </td>
+                        <th style={{ border: "1px solid #D9D9D9" }}>No</th>
+                        <th style={{ border: "1px solid #D9D9D9" }}>
+                          Nama File
+                        </th>
+                        <th style={{ border: "1px solid #D9D9D9" }}>
+                          Waktu Dikirim
+                        </th>
+                        <th style={{ border: "1px solid #D9D9D9" }}>Aksi</th>
                       </tr>
-                    ) : fileKnowledge.length === 0 ? (
-                      <tr>
-                        <td colSpan={4} style={{ padding: "10px" }}>
-                          Tidak ada file yang sudah dimasukkan
-                        </td>
-                      </tr>
-                    ) : (
-                      fileKnowledge.map((file, index) => (
-                        <tr key={file.id} style={{ height: "30px" }}>
-                          <td
-                            style={{
-                              border: "1px solid #D9D9D9",
-                              padding: "3px",
-                            }}
-                          >
-                            {index + 1}
-                          </td>
-                          <td
-                            style={{
-                              textAlign: "left",
-                              border: "1px solid #D9D9D9",
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              maxWidth: "200px",
-                              padding: "3px",
-                            }}
-                            title={file.filename}
-                          >
-                            {file.filename}
-                          </td>
-                          <td
-                            style={{
-                              border: "1px solid #D9D9D9",
-                              width: "250px",
-                              padding: "3px",
-                            }}
-                          >
-                            {new Date(file.created_at).toLocaleString("id-ID", {
-                              month: "long",
-                              year: "numeric",
-                            })}
-                          </td>
-                          <td style={{ border: "1px solid #D9D9D9", padding: "3px" }}>
-                            <span
-                              onClick={() => handleDelete(file.filename)}
-                              style={{ cursor: "pointer", color: "#06344E" }}
+                    </thead>
+                    <tbody style={{ textAlign: "center" }}>
+                      {loading ? (
+                        <tr>
+                          <td colSpan={4}>
+                            <Box
+                              sx={{ display: "flex", justifyContent: "center" }}
                             >
-                              <DeleteIcon />
-                            </span>
+                              <CircularProgress />
+                            </Box>
                           </td>
                         </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
+                      ) : fileKnowledge.length === 0 ? (
+                        <tr>
+                          <td colSpan={4} style={{ padding: "10px" }}>
+                            Tidak ada file yang sudah dimasukkan
+                          </td>
+                        </tr>
+                      ) : (
+                        fileKnowledge.map((file, index) => (
+                          <tr key={file.id}>
+                            <td
+                              style={{
+                                border: "1px solid #D9D9D9",
+                                padding: "3px",
+                              }}
+                            >
+                              {index + 1}
+                            </td>
+                            <td
+                              style={{
+                                border: "1px solid #D9D9D9",
+                                textAlign: "left",
+                                padding: "3px",
+                                maxWidth: "200px",
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                                textOverflow: "ellipsis",
+                              }}
+                              title={file.filename}
+                            >
+                              {file.filename}
+                            </td>
+                            <td
+                              style={{
+                                border: "1px solid #D9D9D9",
+                                padding: "3px",
+                              }}
+                            >
+                              {new Date(file.created_at).toLocaleString(
+                                "id-ID",
+                                {
+                                  month: "long",
+                                  year: "numeric",
+                                }
+                              )}
+                            </td>
+                            <td
+                              style={{
+                                border: "1px solid #D9D9D9",
+                                padding: "3px",
+                              }}
+                            >
+                              <span
+                                onClick={() => handleDelete(file.filename)}
+                                style={{ cursor: "pointer", color: "#06344E" }}
+                              >
+                                <DeleteIcon />
+                              </span>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </Box>
               </Card>
-            </Box>
-          </div>
+            </Grid>
 
-          <div style={{ width: "30%" }}>
-            <Box sx={{ p: 4 }}>
+            {/* Upload File */}
+            <Grid item xs={12} md={4}>
               <Typography variant="h6" gutterBottom>
                 Tambah File Knowledge
               </Typography>
 
-              <Card sx={{ maxWidth: 500, mx: "auto", mt: 2 }}>
+              <Card>
                 <CardContent>
                   <form onSubmit={handleUpload}>
                     <Grid container spacing={2}>
                       <Grid item xs={12}>
-                        <Box sx={{ textAlign: "center", mb: 2 }}>
-                          <input
-                            type="file"
-                            ref={fileInputRef}
-                            onChange={handleFileChange}
-                            style={{ display: "none" }}
-                            accept=".pdf,.xlsx,.xls,.csv"
-                            multiple
-                            disabled={loading}
-                          />
-                          <Button
-                            variant="outlined"
-                            onClick={handleUploadButtonClick}
-                            disabled={uploadLoading}
-                            sx={{ mb: 2 }}
-                            fullWidth
-                          >
-                            Pilih File
-                          </Button>
+                        <input
+                          type="file"
+                          ref={fileInputRef}
+                          onChange={handleFileChange}
+                          style={{ display: "none" }}
+                          accept=".pdf,.xlsx,.xls,.csv"
+                          multiple
+                          disabled={loading}
+                        />
+                        <Button
+                          variant="outlined"
+                          onClick={handleUploadButtonClick}
+                          disabled={uploadLoading}
+                          fullWidth
+                        >
+                          Pilih File
+                        </Button>
 
-                          {files.length > 0 && (
-                            <Paper
-                              sx={{
-                                p: 2,
-                                bgcolor: "rgba(0, 0, 0, 0.03)",
-                                mt: 2,
-                              }}
-                            >
-                              {files.map((f, idx) => (
-                                <Typography variant="body2" key={idx}>
-                                  File: <strong>{f.name}</strong> (
-                                  {(f.size / 1024).toFixed(1)} KB)
-                                </Typography>
-                              ))}
-                            </Paper>
-                          )}
-                        </Box>
+                        {files.length > 0 && (
+                          <Paper
+                            sx={{
+                              p: 2,
+                              bgcolor: "rgba(0, 0, 0, 0.03)",
+                              mt: 2,
+                            }}
+                          >
+                            {files.map((f, idx) => (
+                              <Typography variant="body2" key={idx}>
+                                File: <strong>{f.name}</strong> (
+                                {(f.size / 1024).toFixed(1)} KB)
+                              </Typography>
+                            ))}
+                          </Paper>
+                        )}
                       </Grid>
+
                       <Grid item xs={12}>
                         <Button
                           type="submit"
@@ -364,9 +361,9 @@ export default function AdminUpload() {
                   </form>
                 </CardContent>
               </Card>
-            </Box>
-          </div>
-        </div>
+            </Grid>
+          </Grid>
+        </Box>
       </LayoutAdmin>
     </>
   );
