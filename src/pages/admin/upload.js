@@ -237,7 +237,8 @@ export default function AdminUpload() {
                             <td
                               style={{
                                 border: "1px solid #D9D9D9",
-                                padding: "3px"
+                                padding: "3px",
+                                textAlign:"center"
                               }}
                             >
                               {index + 1}
@@ -274,8 +275,7 @@ export default function AdminUpload() {
                             <td
                               style={{
                                 border: "1px solid #D9D9D9",
-                                padding: "3px",
-                                textAlign:"center"
+                                padding: "3px"
                               }}
                             >
                               <span
