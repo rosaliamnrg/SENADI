@@ -502,7 +502,7 @@ export default function Chat() {
             placeholder={
               verified
                 ? "Chat telah diverifikasi. Klik tombol Chat Baru untuk memulai percakapan baru"
-                : "Tanyakan apa saja terkait Susenas"
+                : "Tanyakan apa saja terkait konsep definisi Susenas"
             }
             value={input}
             onChange={(e) => setInput(e.target.value)}
