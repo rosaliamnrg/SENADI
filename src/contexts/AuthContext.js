@@ -40,13 +40,13 @@ export const AuthProvider = ({ children }) => {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.message || 'Login gagal');
+        throw new Error(error.message || 'Email atau password tidak terdaftar');
       }
 
       const data = await response.json();
       
       if (!data.success) {
-        throw new Error(data.error || 'Login gagal');
+        throw new Error(data.error || 'Email atau password tidak terdaftar');
       }
 
       localStorage.setItem('token', data.token);
