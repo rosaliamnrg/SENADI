@@ -204,14 +204,38 @@ export default function AdminUpload() {
                   >
                     <thead style={{ textAlign: "center" }}>
                       <tr>
-                        <th style={{ border: "1px solid #D9D9D9", textAlign:"center" }}>No</th>
-                        <th style={{ border: "1px solid #D9D9D9", textAlign:"center" }}>
+                        <th
+                          style={{
+                            border: "1px solid #D9D9D9",
+                            textAlign: "center",
+                          }}
+                        >
+                          No
+                        </th>
+                        <th
+                          style={{
+                            border: "1px solid #D9D9D9",
+                            textAlign: "center",
+                          }}
+                        >
                           Nama File
                         </th>
-                        <th style={{ border: "1px solid #D9D9D9", textAlign:"center" }}>
+                        <th
+                          style={{
+                            border: "1px solid #D9D9D9",
+                            textAlign: "center",
+                          }}
+                        >
                           Waktu Dikirim
                         </th>
-                        <th style={{ border: "1px solid #D9D9D9", textAlign:"center" }}>Aksi</th>
+                        <th
+                          style={{
+                            border: "1px solid #D9D9D9",
+                            textAlign: "center",
+                          }}
+                        >
+                          Aksi
+                        </th>
                       </tr>
                     </thead>
                     <tbody style={{ textAlign: "center" }}>
@@ -219,7 +243,11 @@ export default function AdminUpload() {
                         <tr>
                           <td colSpan={4}>
                             <Box
-                              sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+                              sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
                             >
                               <CircularProgress />
                             </Box>
@@ -238,7 +266,7 @@ export default function AdminUpload() {
                               style={{
                                 border: "1px solid #D9D9D9",
                                 padding: "3px",
-                                textAlign:"center"
+                                textAlign: "center",
                               }}
                             >
                               {index + 1}
@@ -260,22 +288,21 @@ export default function AdminUpload() {
                             <td
                               style={{
                                 border: "1px solid #D9D9D9",
-                                padding: "3px"
+                                padding: "3px",
                               }}
                             >
-                              {new Date(file.created_at).toLocaleString(
-                                "id-ID",
-                                {
-                                  month: "long",
-                                  year: "numeric",
-                                }
-                              )}
+                              {new Date(
+                                file.created_at.replace(" ", "T")
+                              ).toLocaleString("id-ID", {
+                                month: "long",
+                                year: "numeric",
+                              })}
                             </td>
                             <td
                               style={{
                                 border: "1px solid #D9D9D9",
                                 padding: "3px",
-                                textAlign:"center"
+                                textAlign: "center",
                               }}
                             >
                               <span
