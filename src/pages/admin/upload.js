@@ -291,12 +291,14 @@ export default function AdminUpload() {
                                 padding: "3px",
                               }}
                             >
-                              {new Date(
-                                file.created_at.replace(" ", "T")
-                              ).toLocaleString("id-ID", {
-                                month: "long",
-                                year: "numeric",
-                              })}
+                              {file.created_at
+                                ? new Date(
+                                    file.created_at.replace(" ", "T")
+                                  ).toLocaleString("id-ID", {
+                                    month: "long",
+                                    year: "numeric",
+                                  })
+                                : "-"}
                             </td>
                             <td
                               style={{
