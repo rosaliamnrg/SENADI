@@ -289,9 +289,9 @@ export default function AdminUpload() {
                               style={{
                                 border: "1px solid #D9D9D9",
                                 padding: "3px",
+                                textAlign: "center",
                               }}
                             >
-                              {console.log("Isi dari file: ", file)}
                               {file.upload_date
                                 ? new Date(file.upload_date).toLocaleString(
                                     "id-ID",
