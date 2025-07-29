@@ -291,11 +291,9 @@ export default function AdminUpload() {
                                 padding: "3px",
                               }}
                             >
-                            {console.log("isi file:", file)}
-                              {file?.created_at &&
-                              typeof file.created_at === "string"
+                              {file.upload_date
                                 ? new Date(
-                                    file.created_at.replace(" ", "T")
+                                    file.upload_date.replace(" ", "T")
                                   ).toLocaleString("id-ID", {
                                     month: "long",
                                     year: "numeric",
