@@ -291,7 +291,9 @@ export default function AdminUpload() {
                                 padding: "3px",
                               }}
                             >
-                              {file.created_at
+                            {console.log("created_at:", file.created_at)}
+                              {file?.created_at &&
+                              typeof file.created_at === "string"
                                 ? new Date(
                                     file.created_at.replace(" ", "T")
                                   ).toLocaleString("id-ID", {
