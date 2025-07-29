@@ -291,7 +291,7 @@ export default function AdminUpload() {
                                 padding: "3px",
                               }}
                             >
-                            {console.log("created_at:", file.created_at)}
+                            {console.log("isi file:", file)}
                               {file?.created_at &&
                               typeof file.created_at === "string"
                                 ? new Date(
