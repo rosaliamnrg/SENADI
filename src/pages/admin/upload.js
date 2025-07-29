@@ -292,12 +292,13 @@ export default function AdminUpload() {
                               }}
                             >
                               {file.upload_date
-                                ? new Date(
-                                    file.upload_date.replace(" ", "T")
-                                  ).toLocaleString("id-ID", {
-                                    month: "long",
-                                    year: "numeric",
-                                  })
+                                ? new Date(file.upload_date).toLocaleString(
+                                    "id-ID",
+                                    {
+                                      month: "long",
+                                      year: "numeric",
+                                    }
+                                  )
                                 : "-"}
                             </td>
                             <td
