@@ -418,7 +418,8 @@ export default function Chat() {
             <Paper
               elevation={1}
               sx={{
-                p: 1.5,
+                py: 1,
+                px: 2,
                 maxWidth: "70%",
                 bgcolor: message.sender === "user" ? "#D9EDF6" : "#F5F5F5",
                 color: "#000000",
