@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Box, Container, TextField, Button, Typography, Alert, Link } from '@mui/material';
+import '@fontsource/inter'; // default
+import '@fontsource/epilogue'; // untuk judul
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -35,12 +37,12 @@ export default function Login() {
           borderRadius: 1,
           boxShadow: 1
         }}>
-          <Typography variant="h4" align="center" gutterBottom>
-            Login
+          <Typography variant="h4" align="center" gutterBottom sx={{ fontFamily: 'Inter, sans-serif', color: '#06344E', fontWeight: 'bold', fontSize: '26px' }}>
+            Selamat Datang !
           </Typography>
 
           {error && (
-            <Alert severity="error" sx={{ mb: 2 }}>
+            <Alert severity="error" sx={{ marginBottom: '16px', fontFamily: 'Inter, sans-serif' }}>
               {error}
             </Alert>
           )}
@@ -52,7 +54,14 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               margin="normal"
+              InputProps={{
+                sx: { fontFamily: 'Inter, sans-serif' }
+              }}
+              InputLabelProps={{
+                sx: { fontFamily: 'Inter, sans-serif' }
+              }}
               required
+              type="email"
             />
             <TextField
               fullWidth
@@ -61,22 +70,28 @@ export default function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               margin="normal"
+              InputProps={{
+                sx: { fontFamily: 'Inter, sans-serif' }
+              }}
+              InputLabelProps={{
+                sx: { fontFamily: 'Inter, sans-serif' }
+              }}
               required
             />
             <Button
               fullWidth
               type="submit"
               variant="contained"
-              sx={{ mt: 3 }}
+              sx={{ mt: 3, fontFamily: 'Inter, sans-serif', backgroundColor: '#06344E', '&:hover': {backgroundColor: '#347AB6',} }}
             >
               Login
             </Button>
           </Box>
 
           <Box sx={{ mt: 2, textAlign: 'center' }}>
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ fontFamily: 'Epilogue, sans-serif'}}>
             Belum punya akun?{' '}
-            <Link href="/register" underline="hover">
+            <Link href="/register" underline="hover" sx={{ color: '#06344E', fontWeight: 'bold' }}>
               Register disini
             </Link>
           </Typography>

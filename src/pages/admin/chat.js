@@ -281,7 +281,7 @@ export default function AdminChat() {
               }}
             >
               <Box sx={{ p: 2, borderBottom: "1px solid #e0e0e0" }}>
-                <Typography variant="h6">Daftar Chat</Typography>
+                <Typography sx={{ fontSize: '20px' }}>Daftar Chat</Typography>
               </Box>
               <Box sx={{ flexGrow: 1, overflow: "auto" }}>
                 {loading && chats.length === 0 ? (
@@ -417,7 +417,7 @@ export default function AdminChat() {
                 <>
                   <Box
                     sx={{
-                      p: 2,
+                      p: 1.6,
                       borderBottom: "1px solid #e0e0e0",
                       display: "flex",
                       justifyContent: "space-between",
@@ -427,7 +427,7 @@ export default function AdminChat() {
                     }}
                   >
                     <Box>
-                      <Typography variant="h6">Detail Chat</Typography>
+                      <Typography sx={{ fontSize: '20px' }}>Detail Chat</Typography>
                       <Button
                         variant="text"
                         onClick={() => setSelectedChat(null)}
@@ -480,8 +480,8 @@ export default function AdminChat() {
                             display: "flex",
                             justifyContent:
                               message.sender === "user"
-                                ? "flex-end"
-                                : "flex-start",
+                                ? "flex-start"
+                                : "flex-end",
                             mb: 2,
                           }}
                         >
@@ -516,7 +516,7 @@ export default function AdminChat() {
                               )}
                             </Typography>
 
-                            {message.is_corrected && (
+                            {message.is_corrected === true && (
                               <Typography
                                 variant="caption"
                                 color="warning.main"
@@ -525,7 +525,7 @@ export default function AdminChat() {
                                 Jawaban ini telah dikoreksi
                               </Typography>
                             )}
-                            {message.is_correction && (
+                            {message.is_correction === true && (
                               <Typography
                                 variant="caption"
                                 color="success.main"
@@ -562,6 +562,7 @@ export default function AdminChat() {
                               <SendIcon />
                             )
                           }
+                          sx={{backgroundColor: '#06344E', '&:hover': {backgroundColor: '#347AB6',}}}
                         >
                           Koreksi
                         </Button>
@@ -587,6 +588,11 @@ export default function AdminChat() {
           </Grid>
         </Grid>
       </LayoutAdmin>
+      <style jsx global>{`
+        * {
+          font-family: 'Inter', sans-serif !important;
+        }
+      `}</style>
     </Box>
   );
 }

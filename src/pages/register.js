@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Box, Paper, Tabs, Tab, Typography, TextField, Button, Alert, Link } from '@mui/material';
 import { useRouter } from 'next/router';
 import { useAuth } from '../contexts/AuthContext';
+import '@fontsource/inter'; // default
+import '@fontsource/epilogue'; // untuk judul
 
 export default function Register() {
   const [tab, setTab] = useState(0);
@@ -63,7 +65,7 @@ export default function Register() {
       bgcolor: 'grey.100'
     }}>
       <Paper elevation={3} sx={{ p: 4, width: 400 }}>
-        <Typography variant="h4" align="center" gutterBottom>
+        <Typography variant="h4" align="center" gutterBottom sx={{ fontFamily: 'Inter, sans-serif', color: '#06344E', fontWeight: 'bold', fontSize: '28px' }}>
           Register
         </Typography>
 
@@ -73,7 +75,7 @@ export default function Register() {
         </Tabs> */}
 
         {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
+          <Alert severity="error" sx={{ marginBottom: '16px', fontFamily: 'Inter, sans-serif' }}>
             {error}
           </Alert>
         )}
@@ -86,6 +88,12 @@ export default function Register() {
             value={formData.username}
             onChange={handleChange}
             margin="normal"
+            InputProps={{
+                sx: { fontFamily: 'Inter, sans-serif' }
+              }}
+              InputLabelProps={{
+                sx: { fontFamily: 'Inter, sans-serif' }
+              }}
             required
           />
           <TextField
@@ -96,6 +104,12 @@ export default function Register() {
             value={formData.email}
             onChange={handleChange}
             margin="normal"
+            InputProps={{
+                sx: { fontFamily: 'Inter, sans-serif' }
+              }}
+              InputLabelProps={{
+                sx: { fontFamily: 'Inter, sans-serif' }
+              }}
             required
           />
           <TextField
@@ -106,6 +120,12 @@ export default function Register() {
             value={formData.password}
             onChange={handleChange}
             margin="normal"
+            InputProps={{
+                sx: { fontFamily: 'Inter, sans-serif' }
+              }}
+              InputLabelProps={{
+                sx: { fontFamily: 'Inter, sans-serif' }
+              }}
             required
           />
           <TextField
@@ -116,13 +136,19 @@ export default function Register() {
             value={formData.confirmPassword}
             onChange={handleChange}
             margin="normal"
+            InputProps={{
+                sx: { fontFamily: 'Inter, sans-serif' }
+              }}
+              InputLabelProps={{
+                sx: { fontFamily: 'Inter, sans-serif' }
+              }}
             required
           />
           <Button
             fullWidth
             variant="contained"
             type="submit"
-            sx={{ mt: 3 }}
+            sx={{ mt: 3, fontFamily: 'Inter, sans-serif', backgroundColor: '#06344E', '&:hover': {backgroundColor: '#347AB6',} }}
             disabled={loading}
           >
             {tab === 0 ? 'Register sebagai User' : 'Register sebagai Admin'}
@@ -130,9 +156,9 @@ export default function Register() {
         </form>
 
         <Box sx={{ mt: 2, textAlign: 'center' }}>
-          <Typography variant="body2">
+          <Typography variant="body2" sx={{ fontFamily: 'Epilogue, sans-serif'}}>
             Sudah punya akun?{' '}
-            <Link href="/" underline="hover">
+            <Link href="/" underline="hover" sx={{ color: '#06344E', fontWeight: 'bold' }}>
               Login disini
             </Link>
           </Typography>

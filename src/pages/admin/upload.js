@@ -386,6 +386,7 @@ export default function AdminUpload() {
                           }
                           disabled={files.length === 0 || uploadLoading}
                           fullWidth
+                          sx={{backgroundColor: '#06344E', '&:hover': {backgroundColor: '#347AB6',}}}
                         >
                           {uploadLoading ? "Mengunggah..." : "Upload File"}
                         </Button>
@@ -398,6 +399,11 @@ export default function AdminUpload() {
           </Grid>
         </Box>
       </LayoutAdmin>
+      <style jsx global>{`
+        * {
+          font-family: 'Inter', sans-serif !important;
+        }
+      `}</style>
     </>
   );
 }
