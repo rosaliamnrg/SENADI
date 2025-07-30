@@ -54,7 +54,7 @@ export default function LayoutAdmin({ children }) {
             <Box sx={{ flexGrow: 1 }}>
               <img
                   src="/images/logo.png"
-                  style={{ height: 40 }}
+                  style={{ height: 46 }}
               />
             </Box>
             <IconButton color="inherit" onClick={logout}>
