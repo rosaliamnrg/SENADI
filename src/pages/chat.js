@@ -20,6 +20,8 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import WarningIcon from "@mui/icons-material/Warning";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ReactMarkdown from "react-markdown";
+import '@fontsource/inter'; // default
+import '@fontsource/epilogue'; // untuk judul
 
 export default function Chat() {
   const [messages, setMessages] = useState([]);
@@ -561,6 +563,11 @@ export default function Chat() {
           </Box>
         )}
       </Box>
+      <style jsx global>{`
+        * {
+          font-family: 'Inter', sans-serif !important;
+        }
+      `}</style>
     </Box>
   );
 }
