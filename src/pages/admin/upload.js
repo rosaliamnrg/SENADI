@@ -14,6 +14,8 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import '@fontsource/inter'; // default
+import '@fontsource/epilogue'; // untuk judul
 
 export default function AdminUpload() {
   const [loading, setLoading] = useState(false);
