@@ -345,7 +345,7 @@ export default function Chat() {
       <AppBar position="static" sx={{ backgroundColor: "#06344E" }}>
         <Toolbar>
           <Box sx={{ flexGrow: 1 }}>
-            <img src="/images/logo.png" style={{ height: 40 }} />
+            <img src="/images/logo.png" style={{ height: 46 }} />
           </Box>
           {verified && (
             <Button
@@ -418,7 +418,7 @@ export default function Chat() {
             <Paper
               elevation={1}
               sx={{
-                p: 2,
+                p: 1.5,
                 maxWidth: "70%",
                 bgcolor: message.sender === "user" ? "#D9EDF6" : "#F5F5F5",
                 color: "#000000",
