@@ -18,6 +18,8 @@ import {
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import '@fontsource/inter'; // default
+import '@fontsource/epilogue'; // untuk judul
 
 export default function AdminChat() {
   const [tab, setTab] = useState(0);
